@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getAllSongs, searchSongs, getLikedSongs } from "../api/songApi";
-import Sidebar from "../components/sideBar";
 import SearchBar from "../components/SearchBar";
 import SongList from "../components/SongList";
 import Player from "../components/Player";
+import Sidebar from "../components/SideBar";
 
 export default function Home() {
   const [songs, setSongs] = useState([]);
