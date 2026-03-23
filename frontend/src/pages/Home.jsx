@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllSongs, searchSongs, getLikedSongs } from "../api/songApi";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/SideBar";
 import SearchBar from "../components/SearchBar";
 import SongList from "../components/SongList";
 import Player from "../components/Player";
@@ -23,14 +23,14 @@ export default function Home() {
       .finally(() => setLoading(false));
   };
 
-  const fetchLikedIds = () => {
-    getLikedSongs()
-      .then((res) => {
-        const ids = res.data.data.songs.map((s) => s._id);
-        setLikedIds(ids);
-      })
-      .catch((err) => console.error("Fetch liked error:", err));
-  };
+  // const fetchLikedIds = () => {
+  //   getLikedSongs()
+  //     .then((res) => {
+  //       const ids = res.data.data.songs.map((s) => s._id);
+  //       setLikedIds(ids);
+  //     })
+  //     .catch((err) => console.error("Fetch liked error:", err));
+  // };
 
   const handleSearch = (q) => {
     searchSongs(q)
@@ -56,10 +56,33 @@ export default function Home() {
     );
   };
 
+  // useEffect(() => {
+    
+  //   fetchSongs();
+  //   fetchLikedIds();
+  // }, []);
   useEffect(() => {
-    fetchSongs();
-    fetchLikedIds();
-  }, []);
+  const loadData = async () => {
+    try {
+      setLoading(true);
+
+      const songsRes = await getAllSongs();
+      setSongs(songsRes.data.data);
+      setQueue(songsRes.data.data);
+
+      const likedRes = await getLikedSongs();
+      const ids = likedRes.data.data.songs.map((s) => s._id);
+      setLikedIds(ids);
+
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadData();
+}, []);
 
   return (
     <div style={{
