@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"   
+    volumes:
+      - ./nginx.config:/etc/nginx/nginx.conf   
+    depends_on:
+      - frontend
+      - backend1
+      - backend2
+      - backend3
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend   
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    networks:
+      - app-network
+
+  
+  backend1:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend1
+    restart: always
+    environment:
+      - PORT=5000
+    networks:
+      - app-network
+
+ 
+  backend2:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend2
+    restart: always
+    environment:
+      - PORT=5000
+    networks:
+      - app-network
+
+  
+  backend3:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend3
+    restart: always
+    environment:
+      - PORT=5000
+    networks:
+      - app-network
+
+  
+ 
+networks:
+  app-network:
+    driver: bridge
