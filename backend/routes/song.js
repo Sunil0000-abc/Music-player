@@ -4,6 +4,7 @@ import Playlist from "../model/playlist.js";
 import { upload } from "../middleware/upload.js";
 import { uploadToS3 } from "../utils/upload.js";
 import { getCachedUrls } from "../utils/generatecashedUrl.js"
+import os from "os"
 const router = express.Router();
 
 router.post(
@@ -337,4 +338,8 @@ router.get("/playlists/liked", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+router.get("/whoami",(req,res)=>{
+  res.json({container: os.hostname()})
+})
 export default router;
