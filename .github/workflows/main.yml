@@ -1,0 +1,32 @@
+name: Deploy Music-player
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy Via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+             cd /home/ubuntu/Music-player
+             git fetch origin
+             git reset --hard origin/main
+             docker-compose down
+             docker-compose --build --no-cache
+             docker-compose up -d  
+

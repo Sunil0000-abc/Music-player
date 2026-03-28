@@ -169,7 +169,7 @@ export default function Home() {
                 letterSpacing: "1.5px",
                 marginBottom: "6px",
               }}>
-                Latest Upload
+                Latest Uploa
               </p>
               <h2 style={{
                 fontFamily: "'Syne', sans-serif",
