@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://13.232.111.144/api",
+  baseURL: "http://13.126.22.147/api",
 });
 
 export const getAllSongs = () => API.get("/songs");
